@@ -1,6 +1,6 @@
 <script setup>
 import TheHeader from '@/components/TheHeader.vue';
-import Gameboard from '@/components/Gameboard.vue';
+import GameBoard from '@/components/GameBoard.vue';
 </script>
 
 <template>
@@ -8,6 +8,6 @@ import Gameboard from '@/components/Gameboard.vue';
     <TheHeader />
   </header>
   <main>
-    <Gameboard />
+    <GameBoard />
   </main>
 </template>
