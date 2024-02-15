@@ -1,10 +1,13 @@
 <script setup>
-import '@/helpers/battleLogic'
+import TheHeader from '@/components/TheHeader.vue';
+import Gameboard from '@/components/Gameboard.vue';
 </script>
 
 <template>
+  <header class="flex justify-center mt-5">
+    <TheHeader />
+  </header>
   <main>
-    <p class="text-red-500 text-9xl">BattleShip</p>
+    <Gameboard />
   </main>
 </template>
-@/helpers/battleLogic
