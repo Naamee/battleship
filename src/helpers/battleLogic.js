@@ -93,10 +93,6 @@ export class Player {
     this.name = name
   }
 
-  placeship(ship, playerGameboard) {
-    playerGameboard.placeShip(ship)
-  }
-
   attack(x, y, enemyGameboard) {
     if (enemyGameboard.board[y][x] === 'X' || enemyGameboard.board[y][x] === 'M') {
       throw new Error('Position already attacked')
