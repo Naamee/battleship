@@ -8,6 +8,9 @@ import GameBoard from '@/components/GameBoard.vue';
     <TheHeader />
   </header>
   <main>
-    <GameBoard />
+    <div>
+      <GameBoard />
+      <GameBoard />
+    </div>
   </main>
 </template>
