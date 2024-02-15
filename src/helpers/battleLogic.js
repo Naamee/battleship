@@ -1,8 +1,8 @@
 export class Ship {
-  constructor(length, hits, Sunk) {
+  constructor(length, hits) {
     this.length = length
     this.hits = hits
-    this.Sunk = Sunk
+    this.sunk = false
   }
 
   hit() {
@@ -13,7 +13,7 @@ export class Ship {
   }
 
   isSunk() {
-    return this.Sunk = true
+    return this.sunk = true
   }
 }
 
@@ -22,7 +22,7 @@ export class Gameboard {
     this.board = []
     this.ships = {}
     this.missedShots = 0
-    this.allShipsSunk = false
+    this.allSunk = false
   }
 
   createBoard() {
@@ -55,15 +55,24 @@ export class Gameboard {
       }
     }
   }
-  
+
   receiveAttack(x, y) {
-    let position = this.board[y]?.[x]
-    if (position === '0') {
-      return this.missedShots++
+    let position = this.board[y]?.[x] //get the position on the board
+    if (position === '0') { //if the position is empty
+      return this.missedShots++ 
     }
-    const attackedShip = this.ships?.[position]
-    attackedShip?.hit()
-    this.board[y][x] = 'X'
+    const attackedShip = this.ships?.[position] //get the ship that was attacked
+    attackedShip?.hit() //hit the ship
+    this.board[y][x] = 'X' //mark the position as attacked
+    this.isAllSunk() //check if all ships are sunk
   }
 
+  isAllSunk() {
+    //iterate through the ships object and check if all ships are sunk
+    const isSunk = Object.values(this.ships).every(ship => ship.sunk === true);
+    if (isSunk) {
+      this.allSunk = true //if all ships are sunk, set allSunk to true
+    }
+  }  
 }
+
