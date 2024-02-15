@@ -1,4 +1,3 @@
-// sum.test.js
 import { expect, test } from 'vitest'
 import { Ship, Gameboard } from '../battleLogic'
 
@@ -71,4 +70,23 @@ test ('Gameboard prevent placing ships on top of each other', () => {
     const testShip2 = new Ship(3, 0, false)
     testGame.placeShip(testShip, 3, 5, 'Horizontal')
     expect(() => testGame.placeShip(testShip2, 3, 5, 'Horizontal')).toThrow('Ship already placed here')
+    })
+
+test('Gameboard keeps track of missed shots', () => {
+    const testGame = new Gameboard()
+    testGame.createBoard()
+    testGame.receiveAttack(0, 0)
+    expect(testGame.missedShots).toBe(1)
+    testGame.receiveAttack(0, 0)
+    expect(testGame.missedShots).toBe(2)
+    }
+)
+
+test('Gameboard can receive an attack and check if a ship is hit', () => {
+    const testGame = new Gameboard()
+    testGame.createBoard()
+    const testShip = new Ship(3, 0, false)
+    testGame.placeShip(testShip, 0, 0, 'Horizontal')
+    testGame.receiveAttack(0, 0)
+    expect(testShip.hits).toBe(1)
     })
