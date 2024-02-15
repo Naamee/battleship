@@ -19,12 +19,12 @@ export class Ship {
 
 export class ShipClass {
   constructor() {
-    this.carrier = new Ship(7, 0) 
-    this.destroyer = new Ship(5, 0) 
-    this.submarine = new Ship(3, 0) 
-    this.cruiser = new Ship(6, 0) 
-    this.frigate = new Ship(4, 0) 
-  } 
+    this.carrier = new Ship(7, 0)
+    this.destroyer = new Ship(5, 0)
+    this.submarine = new Ship(3, 0)
+    this.cruiser = new Ship(6, 0)
+    this.frigate = new Ship(4, 0)
+  }
 }
 
 export class Gameboard {
@@ -69,7 +69,7 @@ export class Gameboard {
   receiveAttack(x, y) {
     let position = this.board[y]?.[x] //get the position on the board
     if (position === '0') { //if the position is empty
-      this.missedShots++ 
+      this.missedShots++
       this.board[y][x] = 'M' //mark the position as missed
     } else {
       const attackedShip = this.ships?.[position] //get the ship that was attacked
@@ -85,7 +85,7 @@ export class Gameboard {
     if (isSunk) {
       this.allSunk = true //if all ships are sunk, set allSunk to true
     }
-  }  
+  }
 }
 
 export class Player {
@@ -103,7 +103,7 @@ export class Player {
   randomAttack(enemyGameboard) {
     let x = Math.floor(Math.random() * 10)
     let y = Math.floor(Math.random() * 10)
-        
+
     if (enemyGameboard.board[y][x] === 'X' || enemyGameboard.board[y][x] === 'M') {
       this.randomAttack()
     }
@@ -111,3 +111,60 @@ export class Player {
     this.attack(x, y, enemyGameboard)
   }
 }
+
+// function playerSetup() {
+//   //initialize player, gameboard and ships
+//   const player = new Player('Player')
+//   const playerGameboard = new Gameboard()
+//   const Ships = new ShipClass()
+
+//   //create gameboard
+//   playerGameboard.createBoard()
+
+//   //player place ships on gameboard
+//   playerGameboard.placeShip(Ships.carrier, 0, 0, 'Horizontal')
+//   playerGameboard.placeShip(Ships.destroyer, 0, 1, 'Horizontal')
+//   playerGameboard.placeShip(Ships.submarine, 0, 2, 'Horizontal')
+//   playerGameboard.placeShip(Ships.cruiser, 0, 3, 'Horizontal')
+//   playerGameboard.placeShip(Ships.frigate, 0, 4, 'Horizontal')
+
+//   return { player, playerGameboard }
+// }
+
+// function computerSetup() {
+//   //initialize computer, gameboard and ships
+//   const computer = new Player('Computer')
+//   const computerGameboard = new Gameboard()
+//   const Ships = new ShipClass()
+
+//   //create gameboards
+//   computerGameboard.createBoard()
+
+//   //computer places ships on gameboard
+//   computerGameboard.placeShip(Ships.carrier, 0, 0, 'Horizontal')
+//   computerGameboard.placeShip(Ships.destroyer, 0, 1, 'Horizontal')
+//   computerGameboard.placeShip(Ships.submarine, 0, 2, 'Horizontal')
+//   computerGameboard.placeShip(Ships.cruiser, 0, 3, 'Horizontal')
+//   computerGameboard.placeShip(Ships.frigate, 0, 4, 'Horizontal')
+
+//   return { computer, computerGameboard }
+// }
+
+
+// function Game() {
+//   playerSetup()
+//   computerSetup()
+//   //game loop
+//   while (playerSetup().playerGameboard.allSunk === false || computerSetup().computerGameboard.allSunk === false) {
+//     playerSetup().player.randomAttack(computerSetup().computerGameboard)
+//     computerSetup().computer.randomAttack(playerSetup().playerGameboard)
+//   }
+//   //check who won 
+//   if (playerSetup.playerGameboard.allSunk === true) {
+//     console.log('Computer wins')
+//   } else {
+//     console.log('Player wins')
+//   }
+// }
+
+// Game()
