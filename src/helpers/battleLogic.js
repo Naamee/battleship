@@ -17,6 +17,16 @@ export class Ship {
   }
 }
 
+export class ShipClass {
+  constructor() {
+    this.carrier = new Ship(7, 0) 
+    this.destroyer = new Ship(5, 0) 
+    this.submarine = new Ship(3, 0) 
+    this.cruiser = new Ship(6, 0) 
+    this.frigate = new Ship(4, 0) 
+  } 
+}
+
 export class Gameboard {
   constructor() {
     this.board = []
@@ -76,3 +86,17 @@ export class Gameboard {
   }  
 }
 
+// export class Player {
+//   constructor(playerGameboard, enemyGameboard) {
+//     this.playerGameboard = playerGameboard
+//     this.enemyGameboard = enemyGameboard
+//   }
+
+//   placeships() {
+//     this.playerGameboard.placeShip(ship, x, y, direction)
+//   }
+
+//   attack() {
+//     prompt()
+//   }
+// }

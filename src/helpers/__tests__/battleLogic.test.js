@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { Ship, Gameboard } from '../battleLogic'
+import { Ship, ShipClass, Gameboard, Player } from '../battleLogic'
 
 
 test('Ship is created with length, hits, and sunk status', () => {
@@ -101,4 +101,29 @@ test('Gameboard can check if all ships have sunk', () => {
     testGame.receiveAttack(0, 0)
     testGame.receiveAttack(0, 1)
     expect(testGame.allSunk).toBe(true)
+    })
+
+test('Ship classes are created with the correct ships', () => {
+    const testShips = new ShipClass()
+    expect(testShips.carrier.length).toBe(7)
+    expect(testShips.destroyer.length).toBe(5)
+    expect(testShips.submarine.length).toBe(3)
+    expect(testShips.cruiser.length).toBe(6)
+    expect(testShips.frigate.length).toBe(4)
+    })
+
+test('Can use ship classes to place ships on the board', () => {
+    const testGame = new Gameboard()
+    testGame.createBoard()
+    const testShips = new ShipClass()
+    testGame.placeShip(testShips.carrier, 0, 0, 'Horizontal')
+    testGame.placeShip(testShips.destroyer, 0, 1, 'Horizontal')
+    testGame.placeShip(testShips.submarine, 0, 2, 'Horizontal')
+    testGame.placeShip(testShips.cruiser, 0, 3, 'Horizontal')
+    testGame.placeShip(testShips.frigate, 0, 4, 'Horizontal')
+    expect(testGame.board[0][0]).toBe('1')
+    expect(testGame.board[1][0]).toBe('2')
+    expect(testGame.board[2][0]).toBe('3')
+    expect(testGame.board[3][0]).toBe('4')
+    expect(testGame.board[4][0]).toBe('5')
     })
