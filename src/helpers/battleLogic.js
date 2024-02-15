@@ -69,12 +69,14 @@ export class Gameboard {
   receiveAttack(x, y) {
     let position = this.board[y]?.[x] //get the position on the board
     if (position === '0') { //if the position is empty
-      return this.missedShots++ 
+      this.missedShots++ 
+      this.board[y][x] = 'M' //mark the position as missed
+    } else {
+      const attackedShip = this.ships?.[position] //get the ship that was attacked
+      attackedShip?.hit() //hit the ship
+      this.board[y][x] = 'X' //mark the position as attacked
+      this.isAllSunk() //check if all ships are sunk
     }
-    const attackedShip = this.ships?.[position] //get the ship that was attacked
-    attackedShip?.hit() //hit the ship
-    this.board[y][x] = 'X' //mark the position as attacked
-    this.isAllSunk() //check if all ships are sunk
   }
 
   isAllSunk() {
@@ -86,17 +88,30 @@ export class Gameboard {
   }  
 }
 
-// export class Player {
-//   constructor(playerGameboard, enemyGameboard) {
-//     this.playerGameboard = playerGameboard
-//     this.enemyGameboard = enemyGameboard
-//   }
+export class Player {
+  constructor(name) {
+    this.name = name
+  }
 
-//   placeships() {
-//     this.playerGameboard.placeShip(ship, x, y, direction)
-//   }
+  placeship(ship, playerGameboard) {
+    playerGameboard.placeShip(ship)
+  }
 
-//   attack() {
-//     prompt()
-//   }
-// }
+  attack(x, y, enemyGameboard) {
+    if (enemyGameboard.board[y][x] === 'X' || enemyGameboard.board[y][x] === 'M') {
+      throw new Error('Position already attacked')
+    }
+    enemyGameboard.receiveAttack(x, y)
+  }
+
+  randomAttack(enemyGameboard) {
+    let x = Math.floor(Math.random() * 10)
+    let y = Math.floor(Math.random() * 10)
+        
+    if (enemyGameboard.board[y][x] === 'X' || enemyGameboard.board[y][x] === 'M') {
+      this.randomAttack()
+    }
+
+    this.attack(x, y, enemyGameboard)
+  }
+}

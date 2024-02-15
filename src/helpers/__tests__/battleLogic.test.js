@@ -77,7 +77,7 @@ test('Gameboard keeps track of missed shots', () => {
     testGame.createBoard()
     testGame.receiveAttack(0, 0)
     expect(testGame.missedShots).toBe(1)
-    testGame.receiveAttack(0, 0)
+    testGame.receiveAttack(0, 1)
     expect(testGame.missedShots).toBe(2)
     }
 )
@@ -127,3 +127,55 @@ test('Can use ship classes to place ships on the board', () => {
     expect(testGame.board[3][0]).toBe('4')
     expect(testGame.board[4][0]).toBe('5')
     })
+
+test('Player can attack an enemy gameboard', () => {
+    const playerBoard = new Gameboard()
+    const enemyBoard = new Gameboard()
+    playerBoard.createBoard()
+    enemyBoard.createBoard()
+    const testPlayer = new Player('naame', playerBoard, enemyBoard)
+    const testShips = new ShipClass()
+    enemyBoard.placeShip(testShips.carrier, 0, 0, 'Horizontal')
+    testPlayer.attack(0, 0, enemyBoard)
+    expect(enemyBoard.board[0][0]).toBe('X')
+    })
+
+test('Player can attack an enemy gameboard and miss', () => {
+    const playerBoard = new Gameboard()
+    const enemyBoard = new Gameboard()
+    playerBoard.createBoard()
+    enemyBoard.createBoard()
+    const testPlayer = new Player('naame')
+    testPlayer.attack(0, 0, enemyBoard)
+    expect(enemyBoard.board[0][0]).toBe('M')
+    })
+
+test('Player can randomly attack an enemy gameboard', () => {
+    const playerBoard = new Gameboard()
+    const enemyBoard = new Gameboard()
+    playerBoard.createBoard()
+    enemyBoard.createBoard()
+    const testPlayer = new Player('naame')
+    const testShips = new ShipClass()
+    enemyBoard.placeShip(testShips.carrier, 0, 0, 'Horizontal') 
+    testPlayer.randomAttack(enemyBoard)
+    // Check if the board has been attacked
+    for (let i = 0; i < 100; i++) {
+        if (enemyBoard.board[i] === 'X') { 
+            expect(enemyBoard.board[i]).toBe('X')
+        }
+    }
+    })
+
+test('Player attack does not attack the same position twice', () => {
+    const playerBoard = new Gameboard()
+    const enemyBoard = new Gameboard()
+    playerBoard.createBoard()
+    enemyBoard.createBoard()
+    const testPlayer = new Player('naame')
+    // const testShips = new ShipClass()
+    // enemyBoard.placeShip(testShips.carrier, 0, 0, 'Horizontal')
+    testPlayer.attack(0, 0, enemyBoard)
+    expect(() => testPlayer.attack(0, 0, enemyBoard)).toThrow('Position already attacked')
+    })
+
