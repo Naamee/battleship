@@ -1,19 +1,20 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useBattleStore } from '@/stores/battleStore'
+import { useGameStore } from '@/stores/GameStore'
 import GameBoard from '@/components/GameBoard.vue'
 
-const battleStore = useBattleStore()
-const playerboard = ref(battleStore.playerboard.board)
-const compboard = ref(battleStore.compboard.board)
+const gameStore = useGameStore()
+const playerboard = ref(gameStore.playerboard.board)
+const compboard = ref(gameStore.compboard.board)
 
 
 onMounted(() => {
-  battleStore.createGameboard()
-  battleStore.playerPlaceShip('cruiser',0, 0)
-  battleStore.compPlaceShip('cruiser',1, 1)
-  playerboard.value = battleStore.playerboard.board
-  compboard.value = battleStore.compboard.board
+    gameStore.createGameboard()
+    gameStore.playerPlaceShip('cruiser',0, 0)
+    gameStore.compPlaceShip('cruiser',1, 1)
+    gameStore.compPlaceShip('cruiser',0, 0, 'Horizontal')
+  playerboard.value = gameStore.playerboard.board
+  compboard.value = gameStore.compboard.board
 })
 </script>
 
