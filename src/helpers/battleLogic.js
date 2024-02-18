@@ -73,7 +73,7 @@ export class Gameboard {
       this.board[y][x] = 'M' //mark the position as missed
     } else {
       const attackedShip = this.ships?.[position] //get the ship that was attacked
-      attackedShip?.hit() //hit the ship
+      attackedShip?.hit //hit the ship
       this.board[y][x] = 'X' //mark the position as attacked
       this.isAllSunk() //check if all ships are sunk
     }

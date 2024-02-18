@@ -7,6 +7,7 @@ const gameStore = useGameStore()
 const playerboard = ref(gameStore.playerboard.board)
 const compboard = ref(gameStore.compboard.board)
 
+
 onMounted(() => {
   gameStore.createGameboard()
   gameStore.playerPlaceShip('cruiser', 0, 0)

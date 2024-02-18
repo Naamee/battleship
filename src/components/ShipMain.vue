@@ -1,20 +1,10 @@
 <script setup>
-import carrier from '@/assets/carrier.png';
-import heart from '@/components/icons/heart.vue';
+import heartIcon from '@/components/icons/heartIcon.vue';
 import { useGameStore } from '@/stores/GameStore';
 
 const gameStore = useGameStore();
 
 const ships = gameStore.ships
-const shipNames = Object.keys(ships) // ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']
-
-const isSunk = (ship) => {
-    if (ship.sunk) {
-        return 'Sunk'
-    } else {
-        return 'Operational'
-    }
-}
 </script>
 
 <template>
@@ -25,7 +15,7 @@ const isSunk = (ship) => {
             <p class="mr-2">{{ key }}</p>
             <!--ship length-->
             <div class="flex">
-                <heart  v-for="length in value.length" :key="length"/>
+                <heartIcon  v-for="length in value.length" :key="length"/>
             </div>
              </div> 
         <div class="flex ml-4">
