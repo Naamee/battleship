@@ -4,14 +4,20 @@ import { Gameboard } from '@/helpers/battleLogic'
 
 export const useBattleStore = defineStore('battle', {
     state: () => ({
-        gameboard: ref({}),
+        playerboard: ref({}),
+        compboard: ref({}),
     }),
     actions: {
         createGameboard() {
-            const newGameboard = new Gameboard()
-            newGameboard.createBoard()
-            this.gameboard = newGameboard
-            return this.gameboard
+            const newPlayerboard = new Gameboard(), newCompboard = new Gameboard()
+            newPlayerboard.createBoard(); newCompboard.createBoard()
+            this.playerboard = newPlayerboard; this.compboard = newCompboard
+        },
+        playerPlaceShip(ship, x, y, direction) {
+            this.playerboard.placeShip(ship, x, y, direction)
+        },
+        compPlaceShip(ship, x, y, direction) {
+            this.compboard.placeShip(ship, x, y, direction)
         },
     }
 })
