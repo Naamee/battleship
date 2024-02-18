@@ -5,3 +5,9 @@
 /* * {
     outline: red 1px solid;
 } */
+
+@layer components {
+    .main-game-container {
+        @apply container flex justify-center space-x-4 text-xs text-gray-200/75 tracking-widest text-shadow-lg shadow-black;
+    }
+}
