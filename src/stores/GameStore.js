@@ -1,11 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { Gameboard } from '@/helpers/battleLogic'
+import { Gameboard, ShipClass } from '@/helpers/battleLogic'
 
 export const useGameStore = defineStore('game', {
     state: () => ({
         playerboard: ref({}),
         compboard: ref({}),
+        ships: ref(new ShipClass()),
     }),
     actions: {
         createGameboard() {
