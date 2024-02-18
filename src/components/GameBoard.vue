@@ -2,6 +2,8 @@
 const props = defineProps({
   gameboard: Object
 })
+
+const isEmpty = (element) => element === '0';
 </script>
 
 <template>
@@ -11,7 +13,10 @@ const props = defineProps({
         v-for="(element, index) in array"
         :key="index"
         class="bg-sky-500 border border-blue-900 w-5 h-5"
-      >{{ element }}</div>
+      >
+        <!--display only if element is not empty-->
+        <p v-if="!isEmpty(element)">{{ element }}</p>
+      </div>
     </div>
   </div>
 </template>
