@@ -6,7 +6,7 @@ export const useGameStore = defineStore('game', {
     state: () => ({
         playerboard: ref({}),
         compboard: ref({}),
-        ships: ref(new ShipClass()),
+        ships: new ShipClass(),
     }),
     actions: {
         createGameboard() {
