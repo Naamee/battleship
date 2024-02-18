@@ -7,10 +7,10 @@ import GameBoard from '@/components/GameBoard.vue';
   <header class="flex justify-center mt-5">
     <TheHeader />
   </header>
-  <main>
-    <div>
-      <GameBoard />
-      <GameBoard />
+  <main class="mt-4">
+    <div class="container flex justify-center space-x-4">
+          <GameBoard />
+          <GameBoard />
     </div>
   </main>
 </template>

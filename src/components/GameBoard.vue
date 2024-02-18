@@ -12,7 +12,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="inline-flex" v-for="(array, key) in gameboard" :key="key">
-      <div v-for="(element, index) in array" :key="index" class="bg-sky-100 border border-red-500 w-10 h-10"> {{ element }}</div>
+  <div class="flex">
+    <div v-for="(array, key) in gameboard" :key="key">
+      <div v-for="(element, index) in array" :key="index" class="bg-sky-500 border border-blue-900 w-5 h-5"></div>
     </div>
+  </div>
 </template>
