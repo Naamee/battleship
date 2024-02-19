@@ -14,22 +14,23 @@ const isEmpty = (element) => element === '0'
 const highlightCells = (offset, start, shipLength, orientation) => {
   gameStore.generateCells()
   if (orientation === 'Horizontal') {
-      let cols = shipLength
-      let rows = start
-      for (let i = offset; i < cols+offset; i++) {
+    let cols = shipLength
+    let rows = start
+    for (let i = offset; i < cols + offset; i++) {
       highlightedCells.value[`${rows}-${i}`] = true
     }
-  } else { // Vertical
+  } else {
+    // Vertical
     let cols = start
     let rows = shipLength
-    for (let i = offset; i < rows+offset; i++) {
+    for (let i = offset; i < rows + offset; i++) {
       highlightedCells.value[`${i}-${cols}`] = true
     }
   }
 }
 
 class Move {
-  constructor(offset, start=0, shipLength, orientation) {
+  constructor(offset, start = 0, shipLength, orientation) {
     this.offset = offset
     this.start = start
     this.shipLength = shipLength
@@ -38,7 +39,7 @@ class Move {
 
   down() {
     if (this.start > 8) {
-      this.start=8
+      this.start = 8
     }
     this.start++
     highlightCells(this.offset, this.start, this.shipLength, this.orientation)
@@ -46,7 +47,7 @@ class Move {
 
   up() {
     if (this.start < 1) {
-      this.start=1
+      this.start = 1
     }
     this.start--
     highlightCells(this.offset, this.start, this.shipLength, this.orientation)
@@ -54,15 +55,15 @@ class Move {
 
   left() {
     if (this.offset < 1) {
-      this.offset=1
+      this.offset = 1
     }
     this.offset--
     highlightCells(this.offset, this.start, this.shipLength, this.orientation)
   }
 
   right() {
-    if (this.offset > this.shipLength-1) {
-      this.offset=this.shipLength-1
+    if (this.offset > 9-this.shipLength) {
+      this.offset = 9-this.shipLength
     }
     this.offset++
     highlightCells(this.offset, this.start, this.shipLength, this.orientation)
@@ -79,7 +80,49 @@ class Move {
 
 gameStore.generateCells()
 
-const move = new Move(0, 3, 5, 'Horizontal')
+const move = new Move(0, 0, 3, 'Horizontal')
+
+onMounted(() => {
+  myBoard.value.focus()
+  myBoard.value.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        if (move.orientation === 'Horizontal') {
+          move.down()
+        } else {
+          move.right()
+        }
+        break
+      case 'ArrowUp':
+        if (move.orientation === 'Horizontal') {
+          move.up()
+        } else {
+          move.left()
+        }
+        break
+      case 'ArrowLeft':
+        if (move.orientation === 'Horizontal') {
+          move.left()
+        } else {
+          move.up()
+        }
+        break
+      case 'ArrowRight':
+        if (move.orientation === 'Horizontal') {
+          move.right()
+        } else {
+          move.down()
+        }
+        break
+      case 'e':
+        move.rotate()
+        break
+      case 'Enter':
+        gameStore.playerPlaceShip('cruiser', move.offset, move.start, move.orientation)
+        break
+    }
+  })
+})
 </script>
 
 <template>
@@ -91,7 +134,7 @@ const move = new Move(0, 3, 5, 'Horizontal')
         :key="index"
         class="bg-sky-500 border border-blue-900 w-5 h-5"
         :class="{ 'bg-white animate-pulse': highlightedCells[`${key}-${index}`] }"
-        @click="move.rotate()"
+        @click="move.left()"
       >
         <!--display only if element is not empty-->
         <p v-if="!isEmpty(element)">{{ element }}</p>
