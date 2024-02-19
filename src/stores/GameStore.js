@@ -7,11 +7,22 @@ export const useGameStore = defineStore('game', {
         playerboard: ref({}),
         compboard: ref({}),
         ships: new battleLogic.ShipClass(),
+        cells: {},
     }),
     actions: {
         createGameboard() {
             this.playerboard = new battleLogic.Gameboard(); this.compboard = new battleLogic.Gameboard()
             this.playerboard.createBoard(); this.compboard.createBoard()
+        },
+        generateCells() {
+            for (let row = 0; row < 10; row++) {
+                for (let col = 0; col < 10; col++) {
+                    // Create the key in the format 'row-col'
+                    const key = `${row}-${col}`;
+                    // Set the value to false for each cell
+                    this.cells[key] = true;
+                }
+            }
         },
         playerPlaceShip(ship, x, y, direction) {
             this.playerboard.placeShip(ship, x, y, direction)

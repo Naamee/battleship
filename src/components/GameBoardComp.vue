@@ -7,8 +7,9 @@ const isEmpty = (element) => element === '0';
 </script>
 
 <template>
-  <div class="flex">
-    <div v-for="(array, key) in props.gameboard" :key="key">
+  <p>Computer</p>
+  <div>
+    <div v-for="(array, key) in props.gameboard" :key="key" class="flex">
       <div
         v-for="(element, index) in array"
         :key="index"
