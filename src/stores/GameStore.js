@@ -20,7 +20,7 @@ export const useGameStore = defineStore('game', {
                     // Create the key in the format 'row-col'
                     const key = `${row}-${col}`;
                     // Set the value to false for each cell
-                    this.cells[key] = true;
+                    this.cells[key] = false;
                 }
             }
         },
