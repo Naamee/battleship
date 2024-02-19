@@ -42,26 +42,30 @@ export class Gameboard {
   }
 
   placeShip(ship, x, y, direction) {
-    //add ship to ships object 
-    const shipsLength = Object.keys(this.ships).length
-    this.ships[shipsLength + 1] = ship
-    let lastestShipIndex = Object.keys(this.ships).length - 1  //get the index of the last ship added
-
+    // Add ship to ships object
+    const shipsLength = Object.keys(this.ships).length;
+    this.ships[shipsLength +  1] = ship;
+    let lastestShipIndex = Object.keys(this.ships).length -  1; // Get the index of the last ship added
+  
+    // Check if all cells are empty before placing the ship
+    for (let i =  0; i < ship.length; i++) {
+      const currentX = direction === 'Horizontal' ? x + i : x;
+      const currentY = direction === 'Horizontal' ? y : y + i;
+  
+      if (this.board[currentY]?.[currentX] !== '0') {
+        throw new Error('Ship cannot be placed here');
+      }
+    }
+  
+    // Place the ship on the board
     if (direction === 'Horizontal') {
-      for (let i = 0; i < ship.length; i++) {
-        //add ship key to corresponding position on board
-        if (this.board[y]?.[x] !== '0') {
-          throw new Error('Ship already placed here')
-        }
-        this.board[y][x++] = Object.keys(this.ships)[lastestShipIndex]
+      for (let i =  0; i < ship.length; i++) {
+        this.board[y][x++] = Object.keys(this.ships)[lastestShipIndex];
       }
     } else {
-      // add ship by column if direction is vertical
-      for (let i = 0; i < ship.length; i++) {
-        if (this.board[y]?.[x] !== '0') {
-          throw new Error('Ship already placed here')
-        }
-        this.board[y++][x] = Object.keys(this.ships)[lastestShipIndex]
+      // Add ship by column if direction is vertical
+      for (let i =  0; i < ship.length; i++) {
+        this.board[y++][x] = Object.keys(this.ships)[lastestShipIndex];
       }
     }
   }

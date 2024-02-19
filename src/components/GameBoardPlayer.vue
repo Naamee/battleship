@@ -80,7 +80,7 @@ class Move {
 
 gameStore.generateCells()
 
-const move = new Move(0, 0, 3, 'Horizontal')
+const move = new Move(0, 0, 7, 'Horizontal')
 
 onMounted(() => {
   myBoard.value.focus()
@@ -118,7 +118,11 @@ onMounted(() => {
         move.rotate()
         break
       case 'Enter':
-        gameStore.playerPlaceShip('cruiser', move.offset, move.start, move.orientation)
+        if (move.orientation === 'Horizontal') {
+          gameStore.playerPlaceShip('cruiser', move.offset, move.start, move.orientation)
+        } else {
+          gameStore.playerPlaceShip('cruiser', move.start, move.offset, move.orientation)
+        }
         break
     }
   })
