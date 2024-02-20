@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import StartView from '../views/StartView.vue'
 import BattleView from '../views/BattleView.vue'
 
 const router = createRouter({
@@ -6,6 +7,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'start',
+      component: StartView
+    },
+    {
+      path: '/battle',
       name: 'battle',
       component: BattleView
     }
