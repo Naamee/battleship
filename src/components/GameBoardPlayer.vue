@@ -18,6 +18,7 @@ const moveShip = (move, previousListener) => {
   const gameStore = useGameStore()
   myBoard.value.focus()
 
+  // remove previous listener if it exists
   if (previousListener) {
     myBoard.value.removeEventListener('keydown', previousListener, true)
   }
@@ -26,28 +27,28 @@ const moveShip = (move, previousListener) => {
   handleKeydown = (e) => {
     e.preventDefault()
     switch (e.key) {    
-      case 'ArrowDown':
+      case 's':
         if (move.orientation === 'Horizontal') {
           move.down()
         } else {
           move.right()
         }
         break
-      case 'ArrowUp':
+      case 'w':
         if (move.orientation === 'Horizontal') {
           move.up()
         } else {
           move.left()
         }
         break
-      case 'ArrowLeft':
+      case 'a':
         if (move.orientation === 'Horizontal') {
           move.left()
         } else {
           move.up()
         }
         break
-      case 'ArrowRight':
+      case 'd':
         if (move.orientation === 'Horizontal') {
           move.right()
         } else {
@@ -57,17 +58,17 @@ const moveShip = (move, previousListener) => {
       case 'r':
         move.rotate()
         break
-      case 'Enter':
+      case 'e':
         if (move.orientation === 'Horizontal') {
           if (gameStore.playerPlaceShip(props.shipClass[0], props.shipClass[1], move.offset, move.start, move.orientation) === true) {
             myBoard.value.removeEventListener('keydown', handleKeydown, true)
-            gameStore.generateCells()
+            gameStore.generateCells() //clear highlighted cells
           }
 
         } else {
           if (gameStore.playerPlaceShip(props.shipClass[0], props.shipClass[1], move.start, move.offset, move.orientation) === true) {
             myBoard.value.removeEventListener('keydown', handleKeydown, true)
-            gameStore.generateCells()
+            gameStore.generateCells() //clear highlighted cells
           }
         }
         break
@@ -84,7 +85,7 @@ const placeShip = () => {
 }
 
 watch(() => props.shipClass, () => {
-  placeShip()
+  placeShip() //place ship when ship is selected
 })
 </script>
 
@@ -95,8 +96,8 @@ watch(() => props.shipClass, () => {
       <div
         v-for="(element, index) in array"
         :key="index"
-        class="bg-sky-500 border border-blue-900 w-5 h-5"
-        :class="{ 'bg-white animate-pulse': highlightedCells[`${key}-${index}`] }"
+        class="bg-water bg-cover border border-dashed border-blue-100 w-5 h-5"
+        :class="{'bg-none bg-blue-100  border-2 border-gray-700': highlightedCells[`${key}-${index}`] }"
       >
         <!--display only if element is not empty-->
         <p v-if="!isEmpty(element)">{{ element }}</p>

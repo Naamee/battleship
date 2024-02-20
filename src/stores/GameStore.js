@@ -35,9 +35,9 @@ export const useGameStore = defineStore('game', {
             }
         },
         clearPlacedShips() {
-            this.playerboard.createBoard()
+            this.playerboard.createBoard() // Clear the board
             while (this.placedShips.length > 0) {
-                this.placedShips.pop();
+                this.placedShips.pop(); // Clear the placedShips array
               }
         },
         compPlaceShip(ship, x, y, direction) {

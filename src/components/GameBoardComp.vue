@@ -13,7 +13,7 @@ const isEmpty = (element) => element === '0';
       <div
         v-for="(element, index) in array"
         :key="index"
-        class="bg-sky-500 border border-blue-900 w-5 h-5 hover:bg-sky-600 active:bg-sky-700 active:outline active:outline-white/50"
+        class="bg-water bg-cover border border-dashed border-blue-100 w-5 h-5 hover:border-4  hover:border-blue-800 active:bg-sky-700 active:border-4 active:border-red-900"
       >
         <!--display only if element is not empty-->
         <p v-if="!isEmpty(element)">{{ element }}</p>

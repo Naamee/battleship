@@ -18,6 +18,7 @@ onMounted(() => {
   compboard.value = gameStore.compboard.board
 })
 
+// watch for changes in the player board
 watch(() => gameStore.playerboard.board, (newVal) => {
   playerboard.value = newVal
 })
