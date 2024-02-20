@@ -1,7 +1,5 @@
 <script setup>
 import TheHeader from '@/components/TheHeader.vue'
-import GameMain from '@/components/GameMain.vue';
-import ShipMain from '@/components/ShipMain.vue';
 </script>
 
 <template>
