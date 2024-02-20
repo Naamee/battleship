@@ -59,10 +59,11 @@ const moveShip = (move, previousListener) => {
         break
       case 'Enter':
         if (move.orientation === 'Horizontal') {
-          gameStore.playerPlaceShip(props.shipClass[1], move.offset, move.start, move.orientation)
+          gameStore.playerPlaceShip(props.shipClass[0], props.shipClass[1], move.offset, move.start, move.orientation)
           myBoard.value.removeEventListener('keydown', handleKeydown, true)
+          console.log(gameStore.placedShips)
         } else {
-          gameStore.playerPlaceShip(props.shipClass[1], move.start, move.offset, move.orientation)
+          gameStore.playerPlaceShip(props.shipClass[0], move.start, move.offset, move.orientation)
           myBoard.value.removeEventListener('keydown', handleKeydown, true)
         }
         break

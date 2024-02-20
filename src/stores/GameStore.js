@@ -8,6 +8,7 @@ export const useGameStore = defineStore('game', {
         compboard: ref({}),
         ships: new battleLogic.ShipClass(),
         cells: ref({}),
+        placedShips : ref([])
     }),
     actions: {
         createGameboard() {
@@ -24,8 +25,9 @@ export const useGameStore = defineStore('game', {
                 }
             }
         },
-        playerPlaceShip(ship, x, y, direction) {
+        playerPlaceShip(shipName, ship, x, y, direction) {
             this.playerboard.placeShip(ship, x, y, direction)
+            this.placedShips.push(shipName)
         },
         compPlaceShip(ship, x, y, direction) {
             this.compboard.placeShip(ship, x, y, direction)
