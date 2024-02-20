@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import * as moveLogic from '@/helpers/moveLogic'
 import { useGameStore } from '@/stores/GameStore'
 
@@ -59,12 +59,15 @@ const moveShip = (move, previousListener) => {
         break
       case 'Enter':
         if (move.orientation === 'Horizontal') {
-          gameStore.playerPlaceShip(props.shipClass[0], props.shipClass[1], move.offset, move.start, move.orientation)
-          myBoard.value.removeEventListener('keydown', handleKeydown, true)
-          console.log(gameStore.placedShips)
+          if (gameStore.playerPlaceShip(props.shipClass[0], props.shipClass[1], move.offset, move.start, move.orientation) === true) {
+            myBoard.value.removeEventListener('keydown', handleKeydown, true)
+
+          }
+
         } else {
-          gameStore.playerPlaceShip(props.shipClass[0], move.start, move.offset, move.orientation)
-          myBoard.value.removeEventListener('keydown', handleKeydown, true)
+          if (gameStore.playerPlaceShip(props.shipClass[0], props.shipClass[1], move.start, move.offset, move.orientation) === true) {
+            myBoard.value.removeEventListener('keydown', handleKeydown, true)
+          }
         }
         break
     }

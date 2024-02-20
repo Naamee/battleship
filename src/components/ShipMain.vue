@@ -4,6 +4,7 @@ import { useGameStore } from '@/stores/GameStore';
 
 const gameStore = useGameStore();
 const ships = gameStore.ships
+const placedShips = gameStore.placedShips
 defineEmits(['placeShip'])
 </script>
 
@@ -13,7 +14,7 @@ defineEmits(['placeShip'])
         <div v-for="([key, value]) in Object.entries(ships)" :key="key" class="flex mt-1">
             <div class="flex justify-center p-1 w-32">
             <!--ship name-->
-            <button @click="$emit('placeShip', [key, value])" class="mr-2 capitalize">{{ key }}</button>
+            <button @click="$emit('placeShip', [key, value])" class="mr-2 capitalize disabled:text-red-900" :disabled="placedShips.includes(key)">{{ key }}</button>
              </div> 
     </div>
     </div>

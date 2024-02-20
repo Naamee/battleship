@@ -26,8 +26,13 @@ export const useGameStore = defineStore('game', {
             }
         },
         playerPlaceShip(shipName, ship, x, y, direction) {
-            this.playerboard.placeShip(ship, x, y, direction)
-            this.placedShips.push(shipName)
+            try {
+                this.playerboard.placeShip(ship, x, y, direction)
+                this.placedShips.push(shipName)
+                return true
+            } catch (error) {
+                return false
+            }
         },
         compPlaceShip(ship, x, y, direction) {
             this.compboard.placeShip(ship, x, y, direction)
