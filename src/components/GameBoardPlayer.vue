@@ -1,91 +1,31 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import * as moveLogic from '@/helpers/moveLogic'
 import { useGameStore } from '@/stores/GameStore'
 
 const props = defineProps({
-  gameboard: Object
+  gameboard: Object,
+  shipClass: Object
 })
 
 const myBoard = ref(null)
 const gameStore = useGameStore()
 const highlightedCells = ref(gameStore.cells)
 const isEmpty = (element) => element === '0'
+let handleKeydown = null;
 
-const highlightCells = (offset, start, shipLength, orientation) => {
-  gameStore.generateCells()
-  if (orientation === 'Horizontal') {
-    let cols = shipLength
-    let rows = start
-    for (let i = offset; i < cols + offset; i++) {
-      highlightedCells.value[`${rows}-${i}`] = true
-    }
-  } else {
-    // Vertical
-    let cols = start
-    let rows = shipLength
-    for (let i = offset; i < rows + offset; i++) {
-      highlightedCells.value[`${i}-${cols}`] = true
-    }
-  }
-}
-
-class Move {
-  constructor(offset, start = 0, shipLength, orientation) {
-    this.offset = offset
-    this.start = start
-    this.shipLength = shipLength
-    this.orientation = orientation
-  }
-
-  down() {
-    if (this.start > 8) {
-      this.start = 8
-    }
-    this.start++
-    highlightCells(this.offset, this.start, this.shipLength, this.orientation)
-  }
-
-  up() {
-    if (this.start < 1) {
-      this.start = 1
-    }
-    this.start--
-    highlightCells(this.offset, this.start, this.shipLength, this.orientation)
-  }
-
-  left() {
-    if (this.offset < 1) {
-      this.offset = 1
-    }
-    this.offset--
-    highlightCells(this.offset, this.start, this.shipLength, this.orientation)
-  }
-
-  right() {
-    if (this.offset > 9-this.shipLength) {
-      this.offset = 9-this.shipLength
-    }
-    this.offset++
-    highlightCells(this.offset, this.start, this.shipLength, this.orientation)
-  }
-  rotate() {
-    if (this.orientation === 'Horizontal') {
-      this.orientation = 'Vertical'
-    } else {
-      this.orientation = 'Horizontal'
-    }
-    highlightCells(this.offset, this.start, this.shipLength, this.orientation)
-  }
-}
-
-gameStore.generateCells()
-
-const move = new Move(0, 0, 7, 'Horizontal')
-
-onMounted(() => {
+const moveShip = (move, previousListener) => {
+  const gameStore = useGameStore()
   myBoard.value.focus()
-  myBoard.value.addEventListener('keydown', (e) => {
-    switch (e.key) {
+
+  if (previousListener) {
+    myBoard.value.removeEventListener('keydown', previousListener, true)
+  }
+
+
+  handleKeydown = (e) => {
+    e.preventDefault()
+    switch (e.key) {    
       case 'ArrowDown':
         if (move.orientation === 'Horizontal') {
           move.down()
@@ -119,13 +59,27 @@ onMounted(() => {
         break
       case 'Enter':
         if (move.orientation === 'Horizontal') {
-          gameStore.playerPlaceShip('cruiser', move.offset, move.start, move.orientation)
+          gameStore.playerPlaceShip(props.shipClass[1], move.offset, move.start, move.orientation)
+          myBoard.value.removeEventListener('keydown', handleKeydown, true)
         } else {
-          gameStore.playerPlaceShip('cruiser', move.start, move.offset, move.orientation)
+          gameStore.playerPlaceShip(props.shipClass[1], move.start, move.offset, move.orientation)
+          myBoard.value.removeEventListener('keydown', handleKeydown, true)
         }
         break
     }
-  })
+  }
+  myBoard.value.addEventListener('keydown', handleKeydown, true)
+}
+
+const placeShip = () => {
+  gameStore.generateCells()
+  const move = new moveLogic.Move(highlightedCells, 0, 0, props.shipClass[1].length, 'Horizontal')
+  move.up()
+  moveShip(move, handleKeydown)
+}
+
+watch(() => props.shipClass, () => {
+  placeShip()
 })
 </script>
 

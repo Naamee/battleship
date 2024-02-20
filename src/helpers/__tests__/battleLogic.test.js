@@ -69,8 +69,24 @@ test ('Gameboard prevent placing ships on top of each other', () => {
     const testShip = new Ship(3, 0)
     const testShip2 = new Ship(3, 0)
     testGame.placeShip(testShip, 3, 5, 'Horizontal')
-    expect(() => testGame.placeShip(testShip2, 3, 5, 'Horizontal')).toThrow('Ship already placed here')
+    expect(() => testGame.placeShip(testShip2, 3, 5, 'Horizontal')).toThrow('Ship cannot be placed here')
     })
+
+test('Can place different classes of ships on the board', () => {
+    const testGame = new Gameboard()
+    testGame.createBoard()
+    const testShips = new ShipClass()
+    testGame.placeShip(testShips.carrier, 0, 0, 'Horizontal')
+    testGame.placeShip(testShips.destroyer, 0, 1, 'Horizontal')
+    testGame.placeShip(testShips.submarine, 0, 2, 'Horizontal')
+    testGame.placeShip(testShips.cruiser, 0, 3, 'Horizontal')
+    testGame.placeShip(testShips.frigate, 0, 4, 'Horizontal')
+    expect(testGame.board[0][0]).toBe('1')
+    expect(testGame.board[1][0]).toBe('2')
+    expect(testGame.board[2][0]).toBe('3')
+    expect(testGame.board[3][0]).toBe('4')
+    expect(testGame.board[4][0]).toBe('5')
+})
 
 test('Gameboard keeps track of missed shots', () => {
     const testGame = new Gameboard()

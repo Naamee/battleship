@@ -1,22 +1,20 @@
 <script setup>
-import heartIcon from '@/components/icons/heartIcon.vue';
+import ShipMessage from './ShipMessage.vue';
 import { useGameStore } from '@/stores/GameStore';
 
 const gameStore = useGameStore();
-
 const ships = gameStore.ships
+defineEmits(['placeShip'])
 </script>
 
 <template>
-    <div class="mt-5 justify-center text-sm text-gray-200">
+    <ShipMessage message="Place your ships on the board."/>
+    <div class="flex mt-5 justify-center text-sm text-gray-200">
         <div v-for="([key, value]) in Object.entries(ships)" :key="key" class="flex mt-1">
-            <div class="flex capitalize p-1 w-32">
+            <div class="flex justify-center p-1 w-32">
             <!--ship name-->
-            <p class="mr-2">{{ key }}</p>
+            <button @click="$emit('placeShip', [key, value])" class="mr-2 capitalize">{{ key }}</button>
              </div> 
-        <div class="flex ml-4">
-            <button class="p-1 px-4 border border-white rounded-full">Place Ship</button>
-        </div>
     </div>
     </div>
 </template>

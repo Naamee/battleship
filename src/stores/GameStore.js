@@ -7,7 +7,7 @@ export const useGameStore = defineStore('game', {
         playerboard: ref({}),
         compboard: ref({}),
         ships: new battleLogic.ShipClass(),
-        cells: {},
+        cells: ref({}),
     }),
     actions: {
         createGameboard() {
