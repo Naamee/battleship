@@ -61,12 +61,13 @@ const moveShip = (move, previousListener) => {
         if (move.orientation === 'Horizontal') {
           if (gameStore.playerPlaceShip(props.shipClass[0], props.shipClass[1], move.offset, move.start, move.orientation) === true) {
             myBoard.value.removeEventListener('keydown', handleKeydown, true)
-
+            gameStore.generateCells()
           }
 
         } else {
           if (gameStore.playerPlaceShip(props.shipClass[0], props.shipClass[1], move.start, move.offset, move.orientation) === true) {
             myBoard.value.removeEventListener('keydown', handleKeydown, true)
+            gameStore.generateCells()
           }
         }
         break

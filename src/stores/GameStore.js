@@ -34,6 +34,12 @@ export const useGameStore = defineStore('game', {
                 return false
             }
         },
+        clearPlacedShips() {
+            this.playerboard.createBoard()
+            while (this.placedShips.length > 0) {
+                this.placedShips.pop();
+              }
+        },
         compPlaceShip(ship, x, y, direction) {
             this.compboard.placeShip(ship, x, y, direction)
         },

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useGameStore } from '@/stores/GameStore'
 import GameBoardPlayer from '@/components/GameBoardPlayer.vue'
 import GameBoardComp from '@/components/GameBoardComp.vue'
@@ -16,6 +16,10 @@ onMounted(() => {
   gameStore.createGameboard()
   playerboard.value = gameStore.playerboard.board
   compboard.value = gameStore.compboard.board
+})
+
+watch(() => gameStore.playerboard.board, (newVal) => {
+  playerboard.value = newVal
 })
 </script>
 
