@@ -134,7 +134,7 @@ onUpdated(() => {
           v-if="!isEmpty(element)"
           src="@/assets/ship.png"
           alt="ship"
-          class="h-full object-cover"
+          class="h-full object-cover grayscale contrast-150"
           :class="{'object-left': isFirstOccurrence(element), 'rotate-90': isVertical(element, array)}"
         />
       </div>

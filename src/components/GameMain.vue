@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useGameStore } from '@/stores/GameStore'
 import GameBoardPlayer from '@/components/GameBoardPlayer.vue'
 import GameBoardComp from '@/components/GameBoardComp.vue'
+import ShipControls from './ShipControls.vue'
 
 const startGame = ref(false)
 const gameStore = useGameStore()
@@ -26,8 +27,9 @@ watch(() => gameStore.playerboard.board, (newVal) => {
 </script>
 
 <template>
-  <div class="main-game-container">
-    <div>
+  <div class="relative main-game-container">
+    <div class="relative">
+      <ShipControls v-if="!startGame" class="absolute right-60 top-10 w-max"/>
       <GameBoardPlayer :gameboard="playerboard" :shipClass="props.shipClass" />
     </div>
     <div v-if="startGame">
