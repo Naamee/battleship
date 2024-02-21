@@ -10,6 +10,8 @@ export const useGameStore = defineStore('game', {
         cells: ref({}),
         placedShips : ref([]),
         gameStarted: ref(false),
+        playerTurn: ref(false),
+        compTurn: ref(false)
     }),
     actions: {
         createGameboard() {
@@ -46,6 +48,7 @@ export const useGameStore = defineStore('game', {
         },
         startGame() {
             this.gameStarted = true
+            this.playerTurn = true
         },
         endGame() {
             this.gameStarted = false
