@@ -12,7 +12,7 @@ const myBoard = ref(null)
 const firstOccurrence = []
 const gameStore = useGameStore()
 const highlightedCells = ref(gameStore.cells)
-const isEmpty = (element) => element === '0'
+const isEmpty = (element) => element[0] === '0'  
 let handleKeydown = null;
 
 const moveShip = (move, previousListener) => {
@@ -86,8 +86,8 @@ const placeShip = () => {
 }
 
 const isFirstOccurrence = (element) => {
-  if (!firstOccurrence.includes(element)) {
-    firstOccurrence.push(element)
+  if (!firstOccurrence.includes(element[0])) {
+    firstOccurrence.push(element[0])
     return true
   }
   return false
@@ -96,7 +96,7 @@ const isFirstOccurrence = (element) => {
 const isVertical = (element, array) => {
   let count = 0
   for (let i = 0; i < array.length; i++) {
-    if (array[i] == element) {
+    if (array[i][0] == element[0]) {
       count++
     }
   }

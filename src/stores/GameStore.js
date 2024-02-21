@@ -34,6 +34,7 @@ export const useGameStore = defineStore('game', {
                 this.placedShips.push(shipName)
                 return true
             } catch (error) {
+                console.log(error)
                 return false
             }
         },
@@ -43,11 +44,26 @@ export const useGameStore = defineStore('game', {
                 this.placedShips.pop(); // Clear the placedShips array
               }
         },
-        compPlaceShip(ship, x, y, direction) {
-            this.compboard.placeShip(ship, x, y, direction)
+        compPlaceShip() {
+            const ships = this.ships
+            let placedShips = 0
+            while (placedShips < 5) {
+                // Randomly place the ships
+                let x = Math.floor(Math.random() * 10)
+                let y = Math.floor(Math.random() * 10)
+                let ship = ships[Object.keys(ships)[placedShips]]
+                let direction = Math.random() < 0.5 ? 'Horizontal' : 'Vertical' 
+                try {
+                    this.compboard.placeShip(ship, x, y, direction)
+                    placedShips++
+                } catch (error) {
+                    continue
+                }
+            }
         },
         startGame() {
             this.gameStarted = true
+            this.compPlaceShip()
             this.playerTurn = true
         },
         endGame() {
