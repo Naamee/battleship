@@ -1,5 +1,4 @@
 <script setup>
-import { ref, watch } from 'vue';
 import ShipMessage from './ShipMessage.vue';
 import GameButtons from './GameButtons.vue';
 import { useGameStore } from '@/stores/GameStore';
@@ -7,13 +6,8 @@ import { useGameStore } from '@/stores/GameStore';
 const gameStore = useGameStore();
 const ships = gameStore.ships
 const placedShips = gameStore.placedShips
-const gameStart = ref(gameStore.gameStarted)
 
 defineEmits(['placeShip'])
-
-watch(() => gameStore.gameStarted, (newVal) => {
-    gameStart.value = newVal
-})
 </script>
 
 <template>
@@ -26,5 +20,5 @@ watch(() => gameStore.gameStarted, (newVal) => {
              </div> 
     </div>
     </div>
-    <GameButtons v-if="!gameStart" @game-start="sendStart"/>
+    <GameButtons v-if="!gameStore.gameStarted"/>
 </template>

@@ -6,7 +6,6 @@ import GameBoardComp from '@/components/GameBoardComp.vue'
 import ShipControls from './ShipControls.vue'
 
 const gameStore = useGameStore()
-const gameStart = ref(gameStore.gameStarted)
 const playerboard = ref(gameStore.playerboard.board)
 const compboard = ref(gameStore.compboard.board)
 
@@ -24,19 +23,15 @@ onMounted(() => {
 watch(() => gameStore.playerboard.board, (newVal) => {
   playerboard.value = newVal
 })
-
-watch(() => gameStore.gameStarted, (newVal) => {
-  gameStart.value = newVal
-})  
 </script>
 
 <template>
   <div class="relative main-game-container">
     <div class="relative">
-      <ShipControls v-if="!gameStart" class="absolute right-60 top-10 w-max"/>
+      <ShipControls v-if="!gameStore.gameStarted" class="absolute right-60 top-10 w-max"/>
       <GameBoardPlayer :gameboard="playerboard" :shipClass="props.shipClass" />
     </div>
-    <div v-if="gameStart">
+    <div v-if="gameStore.gameStarted">
       <GameBoardComp :gameboard="compboard" />
     </div>
   </div>
