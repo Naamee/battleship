@@ -4,6 +4,7 @@ import { useGameStore } from '@/stores/GameStore'
 import GameBoardPlayer from '@/components/GameBoardPlayer.vue'
 import GameBoardComp from '@/components/GameBoardComp.vue'
 
+const startGame = ref(false)
 const gameStore = useGameStore()
 const playerboard = ref(gameStore.playerboard.board)
 const compboard = ref(gameStore.compboard.board)
@@ -29,7 +30,7 @@ watch(() => gameStore.playerboard.board, (newVal) => {
     <div>
       <GameBoardPlayer :gameboard="playerboard" :shipClass="props.shipClass" />
     </div>
-    <div>
+    <div v-if="startGame">
       <GameBoardComp :gameboard="compboard" />
     </div>
   </div>

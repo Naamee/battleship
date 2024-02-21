@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onUpdated } from 'vue'
 import * as moveLogic from '@/helpers/moveLogic'
 import { useGameStore } from '@/stores/GameStore'
 
@@ -9,6 +9,7 @@ const props = defineProps({
 })
 
 const myBoard = ref(null)
+const firstOccurrence = []
 const gameStore = useGameStore()
 const highlightedCells = ref(gameStore.cells)
 const isEmpty = (element) => element === '0'
@@ -26,7 +27,7 @@ const moveShip = (move, previousListener) => {
 
   handleKeydown = (e) => {
     e.preventDefault()
-    switch (e.key) {    
+    switch (e.key) {
       case 's':
         if (move.orientation === 'Horizontal') {
           move.down()
@@ -84,8 +85,34 @@ const placeShip = () => {
   moveShip(move, handleKeydown)
 }
 
+const isFirstOccurrence = (element) => {
+  if (!firstOccurrence.includes(element)) {
+    firstOccurrence.push(element)
+    return true
+  }
+  return false
+}
+
+const isVertical = (element, array) => {
+  let count = 0
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] == element) {
+      count++
+    }
+  }
+  if (count == 1) {
+    return true
+  }
+  return false
+}
+
 watch(() => props.shipClass, () => {
   placeShip() //place ship when ship is selected
+})
+
+// clear firstOccurrence array when gameboard is updated to prevent firstOccurrence from breaking
+onUpdated(() => {
+  firstOccurrence.length = 0
 })
 </script>
 
@@ -97,10 +124,19 @@ watch(() => props.shipClass, () => {
         v-for="(element, index) in array"
         :key="index"
         class="bg-water bg-cover border border-dashed border-blue-100 w-5 h-5"
-        :class="{'bg-none bg-blue-100  border-2 border-gray-700': highlightedCells[`${key}-${index}`] }"
+        :class="{
+          'bg-none bg-blue-100  border-2 border-gray-700': highlightedCells[`${key}-${index}`],
+          'border-none ': !isEmpty(element)
+        }"
       >
         <!--display only if element is not empty-->
-        <p v-if="!isEmpty(element)">{{ element }}</p>
+        <img
+          v-if="!isEmpty(element)"
+          src="@/assets/ship.png"
+          alt="ship"
+          class="h-full object-cover"
+          :class="{'object-left': isFirstOccurrence(element), 'rotate-90': isVertical(element, array)}"
+        />
       </div>
     </div>
   </div>
