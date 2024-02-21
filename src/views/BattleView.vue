@@ -16,9 +16,11 @@ const fetchShipClass = (ship) => {
     <TheHeader/>
   </header>
   <main class="mt-4">
-    <GameMain :ship-class="shipClass"/>
-    <div class="mt-5 border-t">
+    <GameMain :ship-class="shipClass" />
+    <div class="flex flex-col items-center mt-5 border-t">
       <ShipMain @place-ship="fetchShipClass"/>
+      <p class="text-white text-2xl">Your Turn!</p>
+      <p class="text-white text-2xl">Enemy is Attacking!</p>
     </div>
   </main>
 </template>

@@ -1,11 +1,19 @@
 <script setup>
+import { ref, watch } from 'vue';
 import ShipMessage from './ShipMessage.vue';
+import GameButtons from './GameButtons.vue';
 import { useGameStore } from '@/stores/GameStore';
 
 const gameStore = useGameStore();
 const ships = gameStore.ships
 const placedShips = gameStore.placedShips
+const gameStart = ref(gameStore.gameStarted)
+
 defineEmits(['placeShip'])
+
+watch(() => gameStore.gameStarted, (newVal) => {
+    gameStart.value = newVal
+})
 </script>
 
 <template>
@@ -18,10 +26,5 @@ defineEmits(['placeShip'])
              </div> 
     </div>
     </div>
-    <div class="flex flex-col justify-center mt-5 items-center space-y-2">
-        <!--Clear Button-->
-        <button @click="gameStore.clearPlacedShips" class="px-5 py-1 w-20 bg-red-900 hover:bg-red-950 text-white text-sm border border-white rounded-md">Clear</button>
-        <!--Play Button-->
-        <button v-if="gameStore.placedShips.length===5" class="transition ease-out animate-pulse hover:animate-none text-white text-sm border border-white px-5 py-1 w-20">Play</button>
-    </div>
+    <GameButtons v-if="!gameStart" @game-start="sendStart"/>
 </template>

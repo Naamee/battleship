@@ -9,6 +9,7 @@ export const useGameStore = defineStore('game', {
         ships: new battleLogic.ShipClass(),
         cells: ref({}),
         placedShips : ref([]),
+        gameStarted: ref(false),
     }),
     actions: {
         createGameboard() {
@@ -43,8 +44,14 @@ export const useGameStore = defineStore('game', {
         compPlaceShip(ship, x, y, direction) {
             this.compboard.placeShip(ship, x, y, direction)
         },
+        startGame() {
+            this.gameStarted = true
+        },
+        endGame() {
+            this.gameStarted = false
+        },
         playerAttack(x, y) {
             this.compboard.receiveAttack(x, y)
-        },
+        }
     }
 })
