@@ -2,6 +2,7 @@
 import { ref, watch, onUpdated } from 'vue'
 import * as moveLogic from '@/helpers/moveLogic'
 import { useGameStore } from '@/stores/GameStore'
+import CloseIcon from './icons/CloseIcon.vue';
 
 const props = defineProps({
   gameboard: Object,
@@ -13,6 +14,8 @@ const firstOccurrence = []
 const gameStore = useGameStore()
 const highlightedCells = ref(gameStore.cells)
 const isEmpty = (element) => element[0] === '0'  
+const isHit = (element) => element[1] === 'X';
+const isMiss = (element) => element[1] === 'M';
 let handleKeydown = null;
 
 const moveShip = (move, previousListener) => {
@@ -131,12 +134,20 @@ onUpdated(() => {
       >
         <!--display only if element is not empty-->
         <img
-          v-if="!isEmpty(element)"
+          v-if="!isEmpty(element) && !isHit(element) && !isMiss(element)"
           src="@/assets/ship.png"
           alt="ship"
           class="h-full object-cover grayscale contrast-150"
           :class="{'object-left': isFirstOccurrence(element), 'rotate-90': isVertical(element, array)}"
         />
+        <img
+          v-if="isHit(element)"
+          src="@/assets/ship.png"
+          alt="ship"
+          class="h-full object-cover contrast-150 saturate-200"
+          :class="{'hidden': !isHit(element), 'object-left': isFirstOccurrence(element), 'rotate-90': isVertical(element, array)}"
+        />
+        <CloseIcon v-if="isMiss(element)" />
       </div>
     </div>
   </div>
