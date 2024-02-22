@@ -51,14 +51,48 @@ onUpdated(() => {
         :class="{'border-none': !isEmpty(element) && isHit(element)}"  
         @click="gameStore.playerAttack(index, key)"    
         >
-        <img
+        <div class="h-full relative">
+          <img v-if="isHit(element)" src="@/assets/smoke.gif" class="absolute brightness-200 drop-shadow-md animate-pulse blur-sm z-10 h-10 w-10 bottom-0"/>
+          <img
           src="@/assets/ship.png"
           alt="ship"
-          class="h-full object-cover contrast-150 saturate-200"
+          class="h-full object-cover contrast-150 saturate-200 shake"
           :class="{'hidden': !isHit(element), 'object-left': isFirstOccurrence(element), 'rotate-90': isVertical(element, array)}"
         />
-        <CloseIcon v-if="isMiss(element)" />     
+        <CloseIcon v-if="isMiss(element)" class="shake"/>     
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scope>
+.shake {
+  animation: shake 0.50s cubic-bezier(0.10, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(1px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-2px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(2px, 0, 0);
+  }
+}
+</style>
+
