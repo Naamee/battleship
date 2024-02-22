@@ -11,11 +11,11 @@ const gameStore = useGameStore()
 const isEmpty = (element) => element[0] === '0';
 const isHit = (element) => element[1] === 'X';
 const isMiss = (element) => element[1] === 'M';
-const firstOccurrence = []
+const firstsOccurrence = []
 
 const isFirstOccurrence = (element) => {
-  if (!firstOccurrence.includes(element[0])) {
-    firstOccurrence.push(element[0])
+  if (!firstsOccurrence.includes(element[0])) {
+    firstsOccurrence.push(element[0])
     return true
   }
   return false
@@ -36,7 +36,7 @@ const isVertical = (element, array) => {
 
 // clear firstOccurrence array when gameboard is updated to prevent firstOccurrence from breaking
 onUpdated(() => {
-  firstOccurrence.length = 0
+  firstsOccurrence.length = 0
 })
 </script>
 

@@ -38,7 +38,7 @@ export class Gameboard {
   createBoard() {
     // Create a 2D array of size 10x10 and fill it with 0's
     const size = 10;
-    this.board = Array.from({ length: size }, () => Array(size).fill(['0', '']));
+    this.board = Array.from({ length: size }, () => Array(size).fill(['0',]));
   }
 
   placeShip(ship, x, y, direction) {
@@ -59,29 +59,37 @@ export class Gameboard {
     // Place the ship on the board
     if (direction === 'Horizontal') {
       for (let i =  0; i < ship.length; i++) {
-        this.board[y][x++] = [Object.keys(this.ships)[lastestShipIndex], ''];
+        this.board[y][x++] = [Object.keys(this.ships)[lastestShipIndex],];
       }
     } else {
       // Add ship by column if direction is vertical
       for (let i =  0; i < ship.length; i++) {
-        this.board[y++][x] = [Object.keys(this.ships)[lastestShipIndex], ''];
+        this.board[y++][x] = [Object.keys(this.ships)[lastestShipIndex],];
       }
     }
   }
 
+  canAttack(x, y) {
+    if (this.board[y][x][1] === 'X' || this.board[y][x][1] === 'M') {
+      return false
+    }
+    return true
+  }
+
   receiveAttack(x, y) {
-    let position = this.board[y]?.[x] //get the position on the board
+    let position = [...this.board[y][x]] //get the position on the board
     let index = position[0]
-    console.log(index)
     if (index === '0') { //if the position is empty
       this.missedShots++
-      this.board[y][x] = ['0', 'M'] //mark the position as missed
+      position[position.length] = 'M' //mark the position as missed
     } else {
       const attackedShip = this.ships?.[index] //get the ship that was attacked
       attackedShip.hit() //hit the ship
-      this.board[y][x] = ['0', 'X'] //mark the position as attacked
+      position.push('X') //mark the position as attacked
       this.isAllSunk() //check if all ships are sunk
     }
+    this.board[y][x] = position;
+    return this.board[y][x][1]
   }
 
   isAllSunk() {
@@ -99,7 +107,7 @@ export class Player {
   }
 
   attack(x, y, enemyGameboard) {
-    if (enemyGameboard.board[y][x] === 'X' || enemyGameboard.board[y][x] === 'M') {
+    if (enemyGameboard.board[y][x][1] === 'X' || enemyGameboard.board[y][x][1] === 'M') {
       throw new Error('Position already attacked')
     }
     enemyGameboard.receiveAttack(x, y)
@@ -109,7 +117,7 @@ export class Player {
     let x = Math.floor(Math.random() * 10)
     let y = Math.floor(Math.random() * 10)
 
-    if (enemyGameboard.board[y][x] === 'X' || enemyGameboard.board[y][x] === 'M') {
+    if (enemyGameboard.board[y][x][1] === 'X' || enemyGameboard.board[y][x][1] === 'M') {
       this.randomAttack()
     }
 

@@ -70,7 +70,27 @@ export const useGameStore = defineStore('game', {
             this.gameStarted = false
         },
         playerAttack(x, y) {
-            this.compboard.receiveAttack(x, y)
+            if (this.compboard.canAttack(x, y)) {
+                this.compboard.receiveAttack(x, y)
+                this.compAttack()
+            } else if (!this.compboard.canAttack(x, y)) {
+                console.log('You already attacked this cell')
+            }
+        },
+        compAttack() {
+            let x = Math.floor(Math.random() * 10)
+            let y = Math.floor(Math.random() * 10)
+            if (this.playerboard.canAttack(x, y)) {
+                this.playerboard.receiveAttack(x, y)
+                console.log('Computer attacked', x, y)
+                this.playerTurn = true
+            } else if (!this.playerboard.canAttack(x, y)) {
+                this.compAttack()
+            }
+
+            if (this.playerboard.receiveAttack(x, y) === 'X') {
+                this.compAttack()
+            }
         }
     }
 })
