@@ -117,6 +117,10 @@ watch(() => props.shipClass, () => {
 onUpdated(() => {
   firstOccurrence.length = 0
 })
+
+onUpdated(() => {
+  gameStore.endGame()
+})
 </script>
 
 <template>

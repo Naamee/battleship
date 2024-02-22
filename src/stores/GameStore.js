@@ -8,7 +8,7 @@ export const useGameStore = defineStore('game', {
         compboard: ref({}),
         ships: new battleLogic.ShipClass(),
         cells: ref({}),
-        placedShips : ref([]),
+        placedShips: ref([]),
         gameStarted: ref(false),
         playerTurn: ref(false),
         compTurn: ref(false)
@@ -42,7 +42,7 @@ export const useGameStore = defineStore('game', {
             this.playerboard.createBoard() // Clear the board
             while (this.placedShips.length > 0) {
                 this.placedShips.pop(); // Clear the placedShips array
-              }
+            }
         },
         compPlaceShip() {
             const ships = this.ships
@@ -52,7 +52,7 @@ export const useGameStore = defineStore('game', {
                 let x = Math.floor(Math.random() * 10)
                 let y = Math.floor(Math.random() * 10)
                 let ship = ships[Object.keys(ships)[placedShips]]
-                let direction = Math.random() < 0.5 ? 'Horizontal' : 'Vertical' 
+                let direction = Math.random() < 0.5 ? 'Horizontal' : 'Vertical'
                 try {
                     this.compboard.placeShip(ship, x, y, direction)
                     placedShips++
@@ -67,14 +67,34 @@ export const useGameStore = defineStore('game', {
             this.playerTurn = true
         },
         endGame() {
-            this.gameStarted = false
+            this.playerboard.isAllSunk()
+            this.compboard.isAllSunk()
+            if (this.playerboard.allSunk) {
+                console.log('You lose')
+            } else if (this.compboard.allSunk) {
+                console.log('You win')
+            }
         },
         playerAttack(x, y) {
             if (this.compboard.canAttack(x, y)) {
                 this.compboard.receiveAttack(x, y)
-                this.compAttack()
             } else if (!this.compboard.canAttack(x, y)) {
                 console.log('You already attacked this cell')
+            }
+            if (this.compboard.receiveAttack(x, y) === 'M') {
+                this.switchTurn()
+            }
+        },
+        switchTurn() {
+            if (this.playerTurn) {
+                this.playerTurn = false
+                this.compTurn = true
+                setTimeout(() => {
+                    this.compAttack()
+                }, 1000);
+            } else {
+                this.compTurn = false
+                this.playerTurn = true
             }
         },
         compAttack() {
@@ -82,13 +102,18 @@ export const useGameStore = defineStore('game', {
             let y = Math.floor(Math.random() * 10)
             if (this.playerboard.canAttack(x, y)) {
                 this.playerboard.receiveAttack(x, y)
-                console.log('Computer attacked', x, y)
-                this.playerTurn = true
-            } else if (!this.playerboard.canAttack(x, y)) {
-                this.compAttack()
-            }
 
-            if (this.playerboard.receiveAttack(x, y) === 'X') {
+                if (this.playerboard.receiveAttack(x, y) === 'X') {
+                    setTimeout(() => {
+                        this.compAttack()
+                    }, 1000);
+                }
+
+                if (this.playerboard.receiveAttack(x, y) === 'M') {
+                    this.switchTurn()
+                }
+
+            } else if (!this.playerboard.canAttack(x, y)) {
                 this.compAttack()
             }
         }

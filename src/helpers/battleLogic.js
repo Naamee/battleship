@@ -7,6 +7,7 @@ export class Ship {
 
   hit() {
     this.hits++ //increment hits
+    console.log(this.hits, this.length)
     if (this.hits === this.length) {
       return this.isSunk()
     }
@@ -94,9 +95,13 @@ export class Gameboard {
 
   isAllSunk() {
     //iterate through the ships object and check if all ships are sunk
-    const isSunk = Object.values(this.ships).every(ship => ship.sunk === true);
-    if (isSunk) {
-      this.allSunk = true //if all ships are sunk, set allSunk to true
+    if (Object.keys(this.ships).length === 0) {
+      this.allSunk = false
+    } else {
+      const isSunk = Object.values(this.ships).every(ship => ship.sunk === true);
+      if (isSunk) {
+        this.allSunk = true //if all ships are sunk, set allSunk to true
+      }
     }
   }
 }
