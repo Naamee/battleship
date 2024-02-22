@@ -5,6 +5,7 @@ import TheHeader from '@/components/TheHeader.vue'
 import GameMain from '@/components/GameMain.vue';
 import ShipMain from '@/components/ShipMain.vue';
 import GameMessage from '@/components/GameMessage.vue';
+import GameEnd from '@/components/GameEnd.vue';
 
 const shipClass = ref(null)
 const gameStore = useGameStore()
@@ -15,7 +16,8 @@ const fetchShipClass = (ship) => {
 </script>
 
 <template>
-  <header class="flex justify-center mt-5">
+  <div class="relative mt-5">
+  <header class="flex justify-center">
     <TheHeader/>
   </header>
   <main class="mt-4">
@@ -25,4 +27,8 @@ const fetchShipClass = (ship) => {
       <ShipMain @place-ship="fetchShipClass"/>
     </div>
   </main>
+  <div class="absolute inset-0 flex justify-center items-center z-10">
+  <gameEnd />
+  </div>
+</div>
 </template>

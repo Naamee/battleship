@@ -6,8 +6,7 @@ export class Ship {
   }
 
   hit() {
-    this.hits++ //increment hits
-    console.log(this.hits, this.length)
+    this.hits = this.hits + 1 //increment hits
     if (this.hits === this.length) {
       return this.isSunk()
     }
@@ -43,32 +42,32 @@ export class Gameboard {
   }
 
   placeShip(ship, x, y, direction) {
-    // Add ship to ships object
+    // Check if all cells are empty before placing the ship
+    for (let i =  0; i < ship.length; i++) {
+        const currentX = direction === 'Horizontal' ? x + i : x;
+        const currentY = direction === 'Horizontal' ? y : y + i;
+        if (this.board[currentY]?.[currentX][0] !== '0') {
+            throw new Error('Ship cannot be placed here');
+        }
+    }
+
+    // If no errors were thrown, add the ship to the ships object
     const shipsLength = Object.keys(this.ships).length;
     this.ships[shipsLength +  1] = ship;
     let lastestShipIndex = Object.keys(this.ships).length -  1; // Get the index of the last ship added
-  
-    // Check if all cells are empty before placing the ship
-    for (let i =  0; i < ship.length; i++) {
-      const currentX = direction === 'Horizontal' ? x + i : x;
-      const currentY = direction === 'Horizontal' ? y : y + i;
-      if (this.board[currentY]?.[currentX][0] !== '0') {
-        throw new Error('Ship cannot be placed here');
-      }
-    }
-  
+
     // Place the ship on the board
     if (direction === 'Horizontal') {
-      for (let i =  0; i < ship.length; i++) {
-        this.board[y][x++] = [Object.keys(this.ships)[lastestShipIndex],];
-      }
+        for (let i =  0; i < ship.length; i++) {
+            this.board[y][x++] = [Object.keys(this.ships)[lastestShipIndex]];
+        }
     } else {
-      // Add ship by column if direction is vertical
-      for (let i =  0; i < ship.length; i++) {
-        this.board[y++][x] = [Object.keys(this.ships)[lastestShipIndex],];
-      }
+        // Add ship by column if direction is vertical
+        for (let i =  0; i < ship.length; i++) {
+            this.board[y++][x] = [Object.keys(this.ships)[lastestShipIndex]];
+        }
     }
-  }
+}
 
   canAttack(x, y) {
     if (this.board[y][x][1] === 'X' || this.board[y][x][1] === 'M') {
@@ -117,72 +116,4 @@ export class Player {
     }
     enemyGameboard.receiveAttack(x, y)
   }
-
-  randomAttack(enemyGameboard) {
-    let x = Math.floor(Math.random() * 10)
-    let y = Math.floor(Math.random() * 10)
-
-    if (enemyGameboard.board[y][x][1] === 'X' || enemyGameboard.board[y][x][1] === 'M') {
-      this.randomAttack()
-    }
-
-    this.attack(x, y, enemyGameboard)
-  }
 }
-
-// function playerSetup() {
-//   //initialize player, gameboard and ships
-//   const player = new Player('Player')
-//   const playerGameboard = new Gameboard()
-//   const Ships = new ShipClass()
-
-//   //create gameboard
-//   playerGameboard.createBoard()
-
-//   //player place ships on gameboard
-//   playerGameboard.placeShip(Ships.carrier, 0, 0, 'Horizontal')
-//   playerGameboard.placeShip(Ships.destroyer, 0, 1, 'Horizontal')
-//   playerGameboard.placeShip(Ships.submarine, 0, 2, 'Horizontal')
-//   playerGameboard.placeShip(Ships.cruiser, 0, 3, 'Horizontal')
-//   playerGameboard.placeShip(Ships.frigate, 0, 4, 'Horizontal')
-
-//   return { player, playerGameboard }
-// }
-
-// function computerSetup() {
-//   //initialize computer, gameboard and ships
-//   const computer = new Player('Computer')
-//   const computerGameboard = new Gameboard()
-//   const Ships = new ShipClass()
-
-//   //create gameboards
-//   computerGameboard.createBoard()
-
-//   //computer places ships on gameboard
-//   computerGameboard.placeShip(Ships.carrier, 0, 0, 'Horizontal')
-//   computerGameboard.placeShip(Ships.destroyer, 0, 1, 'Horizontal')
-//   computerGameboard.placeShip(Ships.submarine, 0, 2, 'Horizontal')
-//   computerGameboard.placeShip(Ships.cruiser, 0, 3, 'Horizontal')
-//   computerGameboard.placeShip(Ships.frigate, 0, 4, 'Horizontal')
-
-//   return { computer, computerGameboard }
-// }
-
-
-// function Game() {
-//   playerSetup()
-//   computerSetup()
-//   //game loop
-//   while (playerSetup().playerGameboard.allSunk === false || computerSetup().computerGameboard.allSunk === false) {
-//     playerSetup().player.randomAttack(computerSetup().computerGameboard)
-//     computerSetup().computer.randomAttack(playerSetup().playerGameboard)
-//   }
-//   //check who won 
-//   if (playerSetup.playerGameboard.allSunk === true) {
-//     console.log('Computer wins')
-//   } else {
-//     console.log('Player wins')
-//   }
-// }
-
-// Game()

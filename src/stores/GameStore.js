@@ -10,6 +10,7 @@ export const useGameStore = defineStore('game', {
         cells: ref({}),
         placedShips: ref([]),
         gameStarted: ref(false),
+        gameEnded: ref(false),
         playerTurn: ref(false),
         compTurn: ref(false)
     }),
@@ -19,8 +20,8 @@ export const useGameStore = defineStore('game', {
             this.playerboard.createBoard(); this.compboard.createBoard()
         },
         generateCells() {
-            for (let row = 0; row < 10; row++) {
-                for (let col = 0; col < 10; col++) {
+            for (let row =  0; row <  10; row++) {
+                for (let col =  0; col <  10; col++) {
                     // Create the key in the format 'row-col'
                     const key = `${row}-${col}`;
                     // Set the value to false for each cell
@@ -40,24 +41,28 @@ export const useGameStore = defineStore('game', {
         },
         clearPlacedShips() {
             this.playerboard.createBoard() // Clear the board
-            while (this.placedShips.length > 0) {
+            while (this.placedShips.length >  0) {
                 this.placedShips.pop(); // Clear the placedShips array
             }
         },
         compPlaceShip() {
-            const ships = this.ships
-            let placedShips = 0
-            while (placedShips < 5) {
-                // Randomly place the ships
-                let x = Math.floor(Math.random() * 10)
-                let y = Math.floor(Math.random() * 10)
-                let ship = ships[Object.keys(ships)[placedShips]]
-                let direction = Math.random() < 0.5 ? 'Horizontal' : 'Vertical'
-                try {
-                    this.compboard.placeShip(ship, x, y, direction)
-                    placedShips++
-                } catch (error) {
-                    continue
+            const ships = new battleLogic.ShipClass()
+            for (const ship in ships) {
+                if (Object.hasOwnProperty.call(ships, ship)) {
+                    let x, y, direction, success = false;
+        
+                    do {
+                        x = Math.floor(Math.random() *  10);
+                        y = Math.floor(Math.random() *  10);
+                        direction = Math.random() <  0.5 ? 'Horizontal' : 'Vertical';
+        
+                        try {
+                            this.compboard.placeShip(ships[ship], x, y, direction);
+                            success = true; // Set success to true if the operation is successful
+                        } catch (error) {
+                            continue
+                        }
+                    } while (!success); // Keep trying until the ship is successfully placed
                 }
             }
         },
@@ -70,19 +75,22 @@ export const useGameStore = defineStore('game', {
             this.playerboard.isAllSunk()
             this.compboard.isAllSunk()
             if (this.playerboard.allSunk) {
-                console.log('You lose')
+                this.gameEnded = true
+                return 'player'
             } else if (this.compboard.allSunk) {
-                console.log('You win')
+                this.gameEnded = true
+                return 'comp'
             }
         },
         playerAttack(x, y) {
             if (this.compboard.canAttack(x, y)) {
-                this.compboard.receiveAttack(x, y)
-            } else if (!this.compboard.canAttack(x, y)) {
-                console.log('You already attacked this cell')
-            }
-            if (this.compboard.receiveAttack(x, y) === 'M') {
-                this.switchTurn()
+                const result = this.compboard.receiveAttack(x, y);
+                this.endGame()
+                if (result === 'M') {
+                    this.switchTurn();
+                }
+            } else {
+                console.log('You already attacked this cell');
             }
         },
         switchTurn() {
@@ -91,31 +99,31 @@ export const useGameStore = defineStore('game', {
                 this.compTurn = true
                 setTimeout(() => {
                     this.compAttack()
-                }, 1000);
+                },  1000);
             } else {
                 this.compTurn = false
                 this.playerTurn = true
             }
         },
         compAttack() {
-            let x = Math.floor(Math.random() * 10)
-            let y = Math.floor(Math.random() * 10)
+            let x = Math.floor(Math.random() *  10);
+            let y = Math.floor(Math.random() *  10);
             if (this.playerboard.canAttack(x, y)) {
-                this.playerboard.receiveAttack(x, y)
-
-                if (this.playerboard.receiveAttack(x, y) === 'X') {
+                const attackResult = this.playerboard.receiveAttack(x, y);
+                this.endGame()
+                if (attackResult === 'X') {
                     setTimeout(() => {
-                        this.compAttack()
-                    }, 1000);
+                        this.compAttack();
+                        this.endGame()
+                    },  1000);
                 }
 
-                if (this.playerboard.receiveAttack(x, y) === 'M') {
-                    this.switchTurn()
+                if (attackResult === 'M') {
+                    this.switchTurn();
                 }
-
             } else if (!this.playerboard.canAttack(x, y)) {
-                this.compAttack()
+                this.compAttack();
             }
         }
-    }
-})
+    } // This is the missing closing bracket for the actions object
+}) // This is the closing bracket for the defineStore call
