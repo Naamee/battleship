@@ -141,12 +141,12 @@ onUpdated(() => {
           :class="{'object-left': isFirstOccurrence(element), 'rotate-90': isVertical(element, array)}"
         />
         <div class="h-full relative">
-          <img v-if="isHit(element)" src="@/assets/smoke.gif" class="absolute brightness-200 drop-shadow-md animate-pulse blur-sm z-10 h-10 w-10 bottom-0"/>
+          <img v-if="isHit(element)" src="@/assets/smoke.gif" class="absolute brightness-200 drop-shadow-md animate-pulse z-10"/>
           <img
             v-if="isHit(element)"
             src="@/assets/ship.png"
             alt="ship"
-            class="h-full object-cover contrast-150 saturate-200 shake"
+            class="h-full object-cover contrast-150 saturate-200"
             :class="{'hidden': !isHit(element), 'object-left': isFirstOccurrence(element), 'rotate-90': isVertical(element, array)}"
           />
           <CloseIcon v-if="isMiss(element)" class="shake"/>
