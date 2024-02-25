@@ -29,11 +29,11 @@ watch(() => gameStore.playerboard.board, (newVal) => {
 <template>
   <div class="relative main-game-container">
     <div class="relative">
-      <ShipControls v-if="!gameStore.gameStarted" class="hidden sm:flex absolute right-60 top-10 w-max"/>
+      <ShipControls v-if="!gameStore.gameStarted" class="hidden md:flex absolute right-60 top-10 w-max"/>
       <GameBoardPlayer :gameboard="playerboard" :shipClass="props.shipClass" />
       <div class="flex mt-5">
-      <ShipControls v-if="!gameStore.gameStarted" class="sm:hidden block right-60 top-10 w-max"/>
-      <ShipControlButtons class="sm:hidden" v-if="!gameStore.gameStarted" />
+      <ShipControls v-if="!gameStore.gameStarted" class="md:hidden block right-60 top-10 w-max"/>
+      <ShipControlButtons class="md:hidden" v-if="!gameStore.gameStarted" />
     </div>
     </div>
     <div v-if="gameStore.gameStarted">
