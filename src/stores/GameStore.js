@@ -12,7 +12,7 @@ export const useGameStore = defineStore('game', {
         gameStarted: ref(false),
         gameStatus: ref({'gameEnded': false, 'winner': ''}),
         playerTurn: ref(false),
-        compTurn: ref(false)
+        compTurn: ref(false),
     }),
     actions: {
         createGameboard() {

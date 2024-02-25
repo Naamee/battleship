@@ -27,7 +27,6 @@ const moveShip = (move, previousListener) => {
     myBoard.value.removeEventListener('keydown', previousListener, true)
   }
 
-
   handleKeydown = (e) => {
     e.preventDefault()
     switch (e.key) {
