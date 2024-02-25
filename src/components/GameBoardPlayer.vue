@@ -120,9 +120,9 @@ onUpdated(() => {
 </script>
 
 <template>
-  <p>Player</p>
+  <p class="flex justify-center sm:flex-none sm:justify-normal">Player</p>
   <div ref="myBoard" tabindex="0" class="focus:outline-none">
-    <div v-for="(array, key) in props.gameboard" :key="key" class="flex">
+    <div v-for="(array, key) in props.gameboard" :key="key" class="flex justify-center sm:justify-normal">
       <div
         v-for="(element, index) in array"
         :key="index"

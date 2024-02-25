@@ -3,6 +3,7 @@ import { onUpdated } from 'vue'
 import { useGameStore } from '@/stores/GameStore';
 import CloseIcon from '@/components/icons/CloseIcon.vue'
 
+
 const props = defineProps({
   gameboard: Object
 })

@@ -23,7 +23,7 @@ const fetchShipClass = (ship) => {
     <main class="mt-4">
       <GameMessage v-if="gameStore.gameStarted" />
       <GameMain :ship-class="shipClass" class="mt-5" />
-      <div v-if="!gameStore.gameStarted" class="flex flex-col items-center mt-5 border-t">
+      <div v-if="!gameStore.gameStarted" class="flex flex-col flex-wrap items-center mt-5 border-t">
         <ShipMain @place-ship="fetchShipClass" />
       </div>
     </main>

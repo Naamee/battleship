@@ -14,7 +14,7 @@ export default {
         lg: '0 8px 16px var(--tw-shadow-color)',
       },
       backgroundImage: {
-        'water': "url('src/assets/water.jpg')",
+        'water': "url('@/assets/water.jpg')",
       },
     },
   },

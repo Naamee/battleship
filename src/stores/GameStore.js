@@ -82,6 +82,16 @@ export const useGameStore = defineStore('game', {
                 this.gameStatus.winner = 'player'
             }
         },
+        resetGame() {
+            this.playerboard.createBoard()
+            this.compboard.createBoard()
+            this.placedShips = []
+            this.gameStarted = false
+            this.gameStatus.gameEnded = false
+            this.gameStatus.winner = ''
+            this.playerTurn = false
+            this.compTurn = false
+        },
         playerAttack(x, y) {
             if (this.compboard.canAttack(x, y)) {
                 const result = this.compboard.receiveAttack(x, y);
