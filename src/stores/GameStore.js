@@ -10,7 +10,7 @@ export const useGameStore = defineStore('game', {
         cells: ref({}),
         placedShips: ref([]),
         gameStarted: ref(false),
-        gameEnded: ref(false),
+        gameStatus: ref({'gameEnded': false, 'winner': ''}),
         playerTurn: ref(false),
         compTurn: ref(false)
     }),
@@ -75,11 +75,11 @@ export const useGameStore = defineStore('game', {
             this.playerboard.isAllSunk()
             this.compboard.isAllSunk()
             if (this.playerboard.allSunk) {
-                this.gameEnded = true
-                return 'player'
+                this.gameStatus.gameEnded = true
+                this.gameStatus.winner = 'comp'
             } else if (this.compboard.allSunk) {
-                this.gameEnded = true
-                return 'comp'
+                this.gameStatus.gameEnded = true
+                this.gameStatus.winner = 'player'
             }
         },
         playerAttack(x, y) {
